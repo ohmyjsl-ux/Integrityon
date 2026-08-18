@@ -18,7 +18,7 @@
         "participants": {
           "$uid": {
             ".read": "auth != null && auth.uid === $uid",
-            ".write": "auth != null && auth.uid === $uid && (!data.exists() || (newData.child('teamNo').val() === data.child('teamNo').val() && newData.child('teamKey').val() === data.child('teamKey').val()))",
+            ".write": "auth != null && auth.uid === $uid && (!data.exists() || (newData.child('teamNo').val() === data.child('teamNo').val() && newData.child('teamKey').val() === data.child('teamKey').val() && newData.child('roleIndex').val() === data.child('roleIndex').val()))",
             ".validate": "newData.hasChildren(['studentName','schoolLevel','joinedAt'])",
             "studentName": {
               ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 20"
@@ -34,6 +34,9 @@
             },
             "teamKey": {
               ".validate": "newData.isString() && newData.val().matches(/^team-[0-9]{1,2}$/)"
+            },
+            "roleIndex": {
+              ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 3"
             },
             "fieldReason": {
               ".validate": "newData.isString() && newData.val().length >= 12 && newData.val().length <= 240"
@@ -53,12 +56,30 @@
           }
         },
         "answers": {
-          "$stage": {
+          "written": {
             "$question": {
               "$uid": {
                 ".read": "auth != null && auth.uid === $uid",
-                ".write": "auth != null && auth.uid === $uid && !data.exists() && root.child('rooms').child($room).child('control').child('stage').val() === $stage && (!($stage === 'written') || root.child('rooms').child($room).child('control').child('locked').val() === false)",
+                ".write": "auth != null && auth.uid === $uid && !data.exists() && root.child('rooms').child($room).child('control').child('stage').val() === 'written' && root.child('rooms').child($room).child('control').child('locked').val() === false",
                 ".validate": "newData.hasChildren(['choice','at']) && newData.child('choice').isNumber() && newData.child('choice').val() >= 0 && newData.child('choice').val() <= 3 && newData.child('at').isNumber()"
+              }
+            }
+          },
+          "practical": {
+            "$task": {
+              "$uid": {
+                ".read": "auth != null && auth.uid === $uid",
+                ".write": "auth != null && auth.uid === $uid && !data.exists() && root.child('rooms').child($room).child('control').child('stage').val() === 'practical'",
+                ".validate": "newData.hasChildren(['payload','at']) && newData.child('payload').exists() && newData.child('at').isNumber()"
+              }
+            }
+          },
+          "team": {
+            "$task": {
+              "$uid": {
+                ".read": "auth != null && auth.uid === $uid",
+                ".write": "auth != null && auth.uid === $uid && !data.exists() && root.child('rooms').child($room).child('control').child('stage').val() === 'team' && root.child('rooms').child($room).child('participants').child(auth.uid).child('teamKey').exists()",
+                ".validate": "newData.hasChildren(['payload','at']) && newData.child('payload').exists() && newData.child('at').isNumber()"
               }
             }
           }
@@ -69,7 +90,7 @@
             ".write": "auth != null && auth.uid === $uid && root.child('rooms').child($room).child('control').child('stage').val() === 'result'",
             ".validate": "newData.hasChildren(['text','at']) && newData.child('at').isNumber()",
             "text": {
-              ".validate": "newData.isString() && newData.val().length >= 8 && newData.val().length <= 160"
+              ".validate": "newData.isString() && newData.val().length >= 12 && newData.val().length <= 160"
             }
           }
         }

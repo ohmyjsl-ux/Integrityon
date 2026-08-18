@@ -53,7 +53,7 @@
     await roomRef(code).set({
       meta: {
         hostUid: uid,
-        title: title || "청렴, 자격이 되다 2.0",
+        title: title || "청렴, 자격이 되다 3.0",
         createdAt: now,
         status: "open",
       },
@@ -112,9 +112,12 @@
 
   async function assignTeams(code, teamAssignments) {
     const patch = {};
-    Object.entries(teamAssignments).forEach(([participantUid, teamNo]) => {
+    Object.entries(teamAssignments).forEach(([participantUid, assignment]) => {
+      const teamNo = Number(assignment?.teamNo ?? assignment);
+      const roleIndex = Number(assignment?.roleIndex ?? 0);
       patch[`participants/${participantUid}/teamNo`] = teamNo;
       patch[`participants/${participantUid}/teamKey`] = `team-${teamNo}`;
+      patch[`participants/${participantUid}/roleIndex`] = roleIndex;
     });
     return roomRef(code).update(patch);
   }
@@ -136,6 +139,20 @@
 
   async function revisePractical(code, questionId, _firstChoice, finalChoice) {
     return submitAnswer(code, "practical", `${questionId}_final`, finalChoice);
+  }
+
+  async function submitPracticalTask(code, taskId, payload) {
+    return roomRef(code, `answers/practical/${taskId}/${uid}`).set({
+      payload,
+      at: Date.now(),
+    });
+  }
+
+  async function submitTeamTask(code, missionId, taskId, payload) {
+    return roomRef(code, `answers/team/${missionId}_${taskId}/${uid}`).set({
+      payload,
+      at: Date.now(),
+    });
   }
 
   async function submitField(code, missionId, _teamKey, payload) {
@@ -204,6 +221,8 @@
     submitAnswer,
     submitPracticalInitial,
     revisePractical,
+    submitPracticalTask,
+    submitTeamTask,
     submitField,
     savePledge,
     publishStats,
