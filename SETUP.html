@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>청렴ON 2.0 운영 설정</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="brand"
+          ><img src="assets/logo.png" alt="국가청렴권익교육원" /><span
+            class="brand-line"
+          ></span>
+          <div class="service-name">
+            <strong>청렴ON 2.0</strong><span>청렴능력검정 운영 설정</span>
+          </div></a
+        >
+      </div>
+    </header>
+    <nav class="main-nav">
+      <div class="nav-inner">
+        <a href="index.html">프로그램 소개</a><a href="teacher.html">교사용</a
+        ><a href="student.html">학생용</a
+        ><a class="active" href="SETUP.html">운영안내</a>
+      </div>
+    </nav>
+    <main class="main-wrap">
+      <section
+        class="card"
+        style="padding: 32px; max-width: 900px; margin: auto"
+      >
+        <span class="eyebrow">ONE-TIME SETUP</span>
+        <h1 style="color: #063b5c">PC ↔ 학생 휴대폰 실시간 연결 설정</h1>
+        <p class="helper">
+          청렴ON 2.0은 GitHub Pages 같은 정적 웹호스팅과 Firebase Realtime
+          Database를 결합합니다. Firebase 웹 설정값은 비밀번호가 아니라 프로젝트
+          식별정보이며, 실제 접근 권한은 아래 보안규칙과 익명 인증으로
+          제한합니다.
+        </p>
+        <ol style="font-size: 12px; line-height: 2; color: #566671">
+          <li>Firebase Console에서 새 프로젝트를 만듭니다.</li>
+          <li>
+            <b>Authentication → Sign-in method → Anonymous</b>를 활성화합니다.
+          </li>
+          <li><b>Realtime Database</b>를 생성합니다.</li>
+          <li>프로젝트 설정 → 웹 앱 추가에서 Firebase config를 확인합니다.</li>
+          <li>
+            <b>js/firebase-config.js</b>의 YOUR_... 값을 실제 값으로 바꿉니다.
+          </li>
+          <li>
+            처음 설치하거나 보안규칙을 갱신할 때 Realtime Database → Rules에
+            <b>firebase.rules.json</b> 내용을 붙여넣고 게시합니다.
+          </li>
+          <li>이 폴더 전체를 GitHub Pages에 업로드합니다.</li>
+          <li>
+            PC에서 teacher.html → 수업방 개설 → 표시된 QR을 학생이 촬영하면
+            실시간 수업이 시작됩니다.
+          </li>
+        </ol>
+        <div class="feedback info">
+          <b>학생 개인정보 최소화</b><br />전화번호·이메일은 받지 않고 학생
+          이름, 학교급, 익명 사용자 ID, 응답과 실천서약만 사용하도록
+          설계했습니다. 실제 운영 전 학교의 개인정보 처리기준을 확인하고, 수업
+          종료 후 교사가 수업방 삭제 버튼으로 데이터를 삭제하세요.
+        </div>
+        <h2 style="color: #063b5c; margin-top: 25px">
+          firebase-config.js 예시
+        </h2>
+        <pre class="code-line">
+window.CHEONGRYEOM_FIREBASE={
+  apiKey:"...",
+  authDomain:"...firebaseapp.com",
+  databaseURL:"https://...-default-rtdb.firebaseio.com",
+  projectId:"...",
+  appId:"..."
+};</pre
+        >
+        <p>
+          <a class="btn primary" href="teacher.html">교사용 화면으로 이동</a>
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

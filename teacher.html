@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>청렴ON | 교사용</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body class="app-body">
+    <header class="app-top">
+      <div class="app-top-inner">
+        <a href="index.html"
+          ><img
+            class="app-logo"
+            src="assets/official/ci-education.png"
+            alt="국가청렴권익교육원"
+        /></a>
+        <div class="app-service">
+          <b>청렴ON 2.0</b><span class="mode-label">교사용</span
+          ><span id="serverStatus" class="status-pill" aria-live="polite"
+            >연결 중</span
+          >
+        </div>
+      </div>
+    </header>
+    <main class="app-shell">
+      <section id="configError" class="config-alert card hidden">
+        <div
+          class="character-panel"
+          style="max-width: 220px; margin: 0 auto 15px"
+        >
+          <img
+            class="official-character"
+            src="assets/official/character-warning.png"
+            alt="주의를 알리는 국민권익위원회 캐릭터"
+          />
+        </div>
+        <span class="eyebrow">ONE-TIME SETUP</span>
+        <h1>실시간 서버 설정이 필요합니다.</h1>
+        <p class="helper">
+          PC와 학생 휴대폰을 실제 연결하는 최종형이므로 Firebase 실시간
+          데이터베이스 설정이 필요합니다.
+        </p>
+        <a class="btn primary" href="SETUP.html">설정방법 보기</a>
+      </section>
+      <section id="roomSetup" class="setup-block card hidden">
+        <div class="setup-grid">
+          <div>
+            <span class="eyebrow">CLASS OPEN</span>
+            <h1>청렴능력검정 수업방 개설</h1>
+            <p class="helper">
+              학생 이름이 저장되는 수업이므로 참여코드는 추측하기 어려운
+              <b>6자리 숫자</b>로 운영합니다. 학생은 QR을 촬영하면 코드를 직접
+              입력할 필요가 없습니다. 전체 과정은 약 <b>47분</b>입니다.
+            </p>
+            <label for="roomCodeInput">수업방 코드</label
+            ><input
+              id="roomCodeInput"
+              maxlength="6"
+              inputmode="numeric"
+              placeholder="비워두면 6자리 자동 생성"
+            /><label for="roomTitleInput">수업명</label
+            ><input id="roomTitleInput" value="청렴, 자격이 되다 2.0" /><button
+              id="createRoomBtn"
+              class="btn primary large full"
+              style="margin-top: 14px"
+            >
+              수업방 개설
+            </button>
+            <div class="privacy-note" style="margin-top: 12px">
+              <b>이름 정보 보호</b><br />학생 이름은 교사용 출석 확인 및 자격증
+              표시 용도로만 사용하고, 학생 간 화면에는 공개하지 않습니다. 수업
+              종료 후 ‘수업방 종료·삭제’로 전체 데이터를 삭제하세요.
+            </div>
+          </div>
+          <div class="setup-visual">
+            <img
+              class="official-character"
+              src="assets/official/character-guide.png"
+              alt="안내하는 국민권익위원회 캐릭터"
+            />
+          </div>
+        </div>
+      </section>
+      <section id="dashboard" class="teacher-layout hidden">
+        <aside class="teacher-side card">
+          <div class="room-panel">
+            <small id="roomName">청렴, 자격이 되다 2.0</small
+            ><span>오늘의 참여코드</span><strong id="roomCode">------</strong
+            ><button id="copyLink" class="btn soft full">학생 링크 복사</button>
+          </div>
+          <div id="qr" class="qr-wrap"></div>
+          <div class="participant-row">
+            <span>현재 접속</span>
+            <div>
+              <strong id="activeCount">0</strong>명
+              <small>/ 등록 <b id="joinedCount">0</b>명</small>
+            </div>
+          </div>
+          <nav id="stageNav" class="stage-nav"></nav>
+          <div class="side-actions">
+            <button id="exportBtn" class="btn outline">결과 CSV 저장</button
+            ><button id="deleteBtn" class="btn danger">수업방 종료·삭제</button>
+          </div>
+        </aside>
+        <section class="teacher-main">
+          <article class="control-card card">
+            <div class="section-head">
+              <div>
+                <span id="stageKicker" class="eyebrow">READY</span>
+                <h1 id="stageTitle">수험등록</h1>
+              </div>
+              <div class="control-actions">
+                <button id="prevBtn" class="btn outline">← 이전</button
+                ><button id="timerBtn" class="btn timer-action hidden">
+                  10초 시작</button
+                ><button id="teamBtn" class="btn soft hidden">
+                  4인 1팀 자동편성</button
+                ><button id="revealBtn" class="btn outline hidden">
+                  해설 공개</button
+                ><button id="nextBtn" class="btn primary">다음 →</button>
+              </div>
+            </div>
+            <div id="teacherContent" class="content-box"></div>
+          </article>
+          <div class="teacher-grid">
+            <article class="stats-card card">
+              <div class="section-head">
+                <div>
+                  <span class="eyebrow">LIVE</span>
+                  <h3>실시간 응답</h3>
+                </div>
+                <span id="responseChip" class="response-chip">0명 응답</span>
+              </div>
+              <div id="statsArea" class="empty" aria-live="polite">
+                문항이 시작되면 학생 응답이 표시됩니다.
+              </div>
+            </article>
+            <article class="competency-card card">
+              <div class="section-head">
+                <div>
+                  <span class="eyebrow">CLASS</span>
+                  <h3>우리 반 청렴역량</h3>
+                </div>
+              </div>
+              <div id="classComp"></div>
+            </article>
+          </div>
+          <article class="roster-card card">
+            <div class="section-head">
+              <div>
+                <span class="eyebrow">ROSTER</span>
+                <h3>학생 수험명단</h3>
+              </div>
+              <span class="response-chip">교사용 화면에만 표시</span>
+            </div>
+            <div id="roster" class="roster-list"></div>
+          </article>
+        </section>
+      </section>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/content.js"></script>
+    <script src="js/firebase-core.js"></script>
+    <script src="js/teacher.js"></script>
+  </body>
+</html>

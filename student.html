@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>청렴ON | 학생용</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body class="app-body">
+    <header class="app-top student-top">
+      <div class="app-top-inner">
+        <a href="index.html"
+          ><img
+            class="app-logo"
+            src="assets/official/ci-education.png"
+            alt="국가청렴권익교육원" /></a
+        ><span id="studentStatus" class="status-pill" aria-live="polite"
+          >연결 중</span
+        >
+      </div>
+    </header>
+    <main class="student-shell">
+      <section id="configError" class="config-alert card hidden">
+        <div
+          class="character-panel"
+          style="max-width: 220px; margin: 0 auto 15px"
+        >
+          <img
+            class="official-character"
+            src="assets/official/character-warning.png"
+            alt="주의를 알리는 국민권익위원회 캐릭터"
+          />
+        </div>
+        <h1>현재 수업 서비스 준비 중입니다.</h1>
+        <p class="helper">
+          운영자가 실시간 서버 설정을 완료한 뒤 참여할 수 있습니다.
+        </p>
+      </section>
+      <section id="joinPanel" class="student-card card hidden">
+        <div class="student-header-grid">
+          <div>
+            <span class="eyebrow">청렴능력검정 · 47분</span>
+            <h1>당신의 선택은<br />자격이 있습니까?</h1>
+            <p class="helper">
+              별명이나 닉네임이 아니라
+              <b>실제 학생 이름을 정자로</b> 입력해주세요. 자격증에도 같은
+              이름이 표시됩니다.
+            </p>
+          </div>
+          <div class="student-character">
+            <img
+              class="official-character"
+              src="assets/official/character-greeting.png"
+              alt="인사하는 국민권익위원회 캐릭터"
+            />
+          </div>
+        </div>
+        <label for="joinCode">참여코드</label
+        ><input
+          id="joinCode"
+          maxlength="6"
+          inputmode="numeric"
+          placeholder="6자리 참여코드"
+        /><label for="schoolLevel">학교급</label
+        ><select id="schoolLevel">
+          <option value="middle">중학생</option>
+          <option value="high">고등학생</option></select
+        ><label for="studentName">학생 이름(정자)</label
+        ><input
+          id="studentName"
+          maxlength="20"
+          autocomplete="name"
+          placeholder="예: 홍길동"
+        />
+        <div class="field-note">
+          한글·영문과 띄어쓰기만 입력할 수 있습니다. 별명·이모지·숫자는 사용할
+          수 없습니다.
+        </div>
+        <div class="name-privacy">
+          수업 진행·출석 확인·자격증 표시를 위해 이름과 응답이 해당 수업방에
+          임시 저장됩니다. 전화번호·이메일은 수집하지 않으며, 교사가 수업 종료
+          후 수업방을 삭제하면 함께 삭제됩니다.
+        </div>
+        <button
+          id="joinBtn"
+          class="btn primary large full"
+          style="margin-top: 14px"
+        >
+          수험등록하기
+        </button>
+      </section>
+      <section id="examPanel" class="hidden">
+        <div class="student-progress">
+          <div class="progress-meta">
+            <span id="studentStage">수험등록</span><b id="studentPct">0%</b>
+          </div>
+          <div class="progress-track">
+            <span id="studentBar" style="width: 0%"></span>
+          </div>
+        </div>
+        <article
+          id="studentContent"
+          class="student-card card"
+          aria-live="polite"
+        ></article>
+      </section>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/content.js"></script>
+    <script src="js/firebase-core.js"></script>
+    <script src="js/student.js"></script>
+  </body>
+</html>

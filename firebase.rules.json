@@ -1,0 +1,79 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "rooms": {
+      "$room": {
+        ".read": "auth != null && data.child('meta/hostUid').val() === auth.uid",
+        ".write": "auth != null && ((!data.exists() && newData.child('meta/hostUid').val() === auth.uid) || data.child('meta/hostUid').val() === auth.uid)",
+        "meta": {
+          ".read": "auth != null"
+        },
+        "control": {
+          ".read": "auth != null && (root.child('rooms').child($room).child('meta').child('hostUid').val() === auth.uid || root.child('rooms').child($room).child('participants').child(auth.uid).exists())"
+        },
+        "publicStats": {
+          ".read": "auth != null && (root.child('rooms').child($room).child('meta').child('hostUid').val() === auth.uid || root.child('rooms').child($room).child('participants').child(auth.uid).exists())"
+        },
+        "participants": {
+          "$uid": {
+            ".read": "auth != null && auth.uid === $uid",
+            ".write": "auth != null && auth.uid === $uid && (!data.exists() || (newData.child('teamNo').val() === data.child('teamNo').val() && newData.child('teamKey').val() === data.child('teamKey').val()))",
+            ".validate": "newData.hasChildren(['studentName','schoolLevel','joinedAt'])",
+            "studentName": {
+              ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 20"
+            },
+            "schoolLevel": {
+              ".validate": "newData.val() === 'middle' || newData.val() === 'high'"
+            },
+            "joinedAt": {
+              ".validate": "newData.isNumber()"
+            },
+            "teamNo": {
+              ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 99"
+            },
+            "teamKey": {
+              ".validate": "newData.isString() && newData.val().matches(/^team-[0-9]{1,2}$/)"
+            },
+            "fieldReason": {
+              ".validate": "newData.isString() && newData.val().length >= 12 && newData.val().length <= 240"
+            },
+            "fieldSubmittedAt": {
+              ".validate": "newData.isNumber()"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "presence": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid",
+            ".validate": "newData.hasChildren(['at']) && newData.child('at').isNumber()"
+          }
+        },
+        "answers": {
+          "$stage": {
+            "$question": {
+              "$uid": {
+                ".read": "auth != null && auth.uid === $uid",
+                ".write": "auth != null && auth.uid === $uid && !data.exists() && root.child('rooms').child($room).child('control').child('stage').val() === $stage && (!($stage === 'written') || root.child('rooms').child($room).child('control').child('locked').val() === false)",
+                ".validate": "newData.hasChildren(['choice','at']) && newData.child('choice').isNumber() && newData.child('choice').val() >= 0 && newData.child('choice').val() <= 3 && newData.child('at').isNumber()"
+              }
+            }
+          }
+        },
+        "pledges": {
+          "$uid": {
+            ".read": "auth != null && auth.uid === $uid",
+            ".write": "auth != null && auth.uid === $uid && root.child('rooms').child($room).child('control').child('stage').val() === 'result'",
+            ".validate": "newData.hasChildren(['text','at']) && newData.child('at').isNumber()",
+            "text": {
+              ".validate": "newData.isString() && newData.val().length >= 8 && newData.val().length <= 160"
+            }
+          }
+        }
+      }
+    }
+  }
+}
